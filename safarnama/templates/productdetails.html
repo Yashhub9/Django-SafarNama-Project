@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block body %}
+{% load static %}
+
+<div class="container mt-4">
+    {% for x in products %}
+    <!-- Package Header -->
+    <div class="row">
+        <div class="col-md-12">
+            <img src="{{ x.pimage.url }}" alt="{{ x.name }}" class="package-image mb-3" style="height: 500px; width: 70%;">
+            <h2>{{ x.name }} ({{ x.duration }}) </h2>
+            <p><strong>Location: </strong>{{ x.name }}</p>
+            <a href="{% url 'booking' x.id %}" class="btn btn-primary btn-lg mt-3">Book Now</a>
+
+
+
+        </div>
+    </div>
+    <br>
+
+
+
+    <!-- Tabs: Overview, Itinerary, Notes -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#overview-{{ x.id }}">Overview</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#itinerary-{{ x.id }}">Itinerary</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#notes-{{ x.id }}">Notes</a>
+        </li>
+    </ul>
+
+    
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane container active mt-3" id="overview-{{ x.id }}">
+            <p>{{ x.description }}</p>
+            <div class="details-section">
+                <h5>Details:</h5>
+                <ul>
+                    <li><strong>Duration:</strong> {{ x.duration }}</li>
+                    <li><strong>Price:</strong> ₹{{ x.price }}</li>
+                    <li><strong>Location:</strong> {{ x.location }}</li>
+                    <li><strong>Highlights:</strong> {{ x.pdetails }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-pane container mt-3" id="itinerary-{{ x.id }}">
+            <h5>Trip Itinerary:</h5>
+            <ul>
+                {% for itinerary in x.itineraries.all %}
+                <li>
+                    <strong>Day {{ itinerary.day }}:</strong> {{ itinerary.activities }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="tab-pane container mt-3" id="notes-{{ x.id }}">
+            <h5>Important Notes:</h5>
+            <p>{{ x.notes }}</p>
+        </div>
+    </div>
+
+    <!-- <div class="mt-5">
+        <h4>Related Packages</h4>
+        <div class="row related-packages">
+            {% for related in related_packages %}
+            <div class="col-md-3 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <img src="{{ related.pimage.url }}" alt="{{ related.name }}" class="card-img-top">
+                    <div class="card-body text-center">
+                        <h6>{{ related.name }}</h6>
+                        <p>₹{{ related.price }}</p>
+                        <a href="/tripdetails/{{ related.id }}" class="btn btn-sm btn-outline-primary">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div> -->
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

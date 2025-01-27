@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Booking Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Passenger Booking Form</h2>
+    <form action="/submit-booking/" method="post">
+        {% csrf_token %}
+        
+        <!-- Booking Info -->
+        <label for="passenger_count">Number of Passengers:</label>
+        <input type="number" id="passenger_count" name="passenger_count" min="1" required>
+
+        <label for="total_price">Total Amount (in USD):</label>
+        <input type="number" id="total_price" name="total_price" step="0.01" required>
+
+        <!-- Passenger Details -->
+        <div id="passengers">
+            <label>Passenger 1 Name:</label>
+            <input type="text" name="passengers[0][name]" placeholder="Full Name" required>
+
+            <label>Passenger 1 Age:</label>
+            <input type="number" name="passengers[0][age]" min="1" required>
+
+            <label>Passenger 1 Gender:</label>
+            <input type="text" name="passengers[0][gender]" placeholder="Male/Female" required>
+
+            <label>Passenger 1 Contact Number:</label>
+            <input type="tel" name="passengers[0][mobile]" placeholder="e.g., +1234567890" required>
+        </div>
+
+        <!-- Add more passengers dynamically if needed -->
+
+        <button type="submit">Pay Now</button>
+    </form>
+
+    <script>
+        // You can add JavaScript to dynamically add more passenger fields if required.
+    </script>
+</body>
+</html>
+
+{% endblock body %}

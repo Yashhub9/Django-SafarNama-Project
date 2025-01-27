@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<style>
+    .sidebar-fixed {
+        position: sticky;
+        top: 90px;
+        height: 100%;
+        overflow-y: auto;
+    }
+    .card-img-top {
+        max-width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    .filter-sidebar {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    .filter-sidebar h5 {
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    .filter-sidebar a {
+        text-decoration: none;
+        color: #007bff;
+    }
+    .filter-sidebar a:hover {
+        text-decoration: underline;
+    }
+    .card {
+        border-radius: 8px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    .card-text {
+        font-size: 0.9rem;
+    }
+    .btn-danger {
+        border-radius: 20px;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Filter Sidebar -->
+        <div class="col-md-3">
+            <div class="filter-sidebar shadow-sm">
+                <h5>Filter by Price</h5>
+                <hr>
+                <form action="/range" method="get">
+                    <div class="mb-3">
+                        <label for="Input1" class="form-label">Minimum Price</label>
+                        <input type="number" name="min" class="form-control" id="Input1" placeholder="Minimum value">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Input2" class="form-label">Maximum Price</label>
+                        <input type="number" name="max" class="form-control" id="Input2" placeholder="Maximum value">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </form>
+
+                <h5 class="mt-4">Sort By Price</h5>
+                <hr>
+                <p><a href="/sort/0">Low to High</a></p>
+                <p><a href="/sort/1">High to Low</a></p>
+            </div>
+        </div>
+
+        <!-- Product Cards Section -->
+        <div class="col-md-9">
+            <div class="row">
+                {% for x in products %}
+                {% if x.is_active %}
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <!-- Product Image -->
+                        <img src="{{ x.pimage.url }}" class="card-img-top" alt="{{ x.name }}">
+
+                        <!-- Product Details -->
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ x.name }}</h5>
+                            <p class="card-text">
+                                <strong>Price: ₹{{ x.price }}</strong>
+                                <span class="text-decoration-line-through text-muted ms-2">₹{{ x.original_price }}</span>
+                                {% if x.discount_percentage > 0 %}
+                                <span class="text-success ms-2"><b>{{ x.discount_percentage }}% OFF</b></span>
+                                {% endif %}
+                            </p>
+                            <a href="/productdetails/{{ x.id }}" class="btn btn-primary w-100">See Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
