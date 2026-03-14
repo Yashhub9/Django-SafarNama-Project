@@ -3,6 +3,7 @@ Django settings for safarnama project.
 """
 
 from pathlib import Path
+import importlib.util
 import os
 
 
@@ -26,6 +27,14 @@ DEBUG = env_bool("DEBUG", default=False)
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "127.0.0.1,localhost")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "")
 
+render_hostname = os.getenv("RENDER_EXTERNAL_HOSTNAME", "").strip()
+if render_hostname and render_hostname not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(render_hostname)
+
+render_origin = f"https://{render_hostname}" if render_hostname else ""
+if render_origin and render_origin not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(render_origin)
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -47,6 +56,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if importlib.util.find_spec("whitenoise") is not None:
+    MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 
 
 ROOT_URLCONF = "safarnama.urls"
@@ -73,8 +85,20 @@ WSGI_APPLICATION = "safarnama.wsgi.application"
 
 
 DB_ENGINE = os.getenv("DB_ENGINE", "sqlite").strip().lower()
+database_url = os.getenv("DATABASE_URL", "").strip()
 
-if DB_ENGINE == "mysql":
+if database_url and importlib.util.find_spec("dj_database_url") is not None:
+    import dj_database_url
+
+    DATABASES = {
+        "default": dj_database_url.parse(
+            database_url,
+            conn_max_age=600,
+            ssl_require=not DEBUG,
+        )
+    }
+
+elif DB_ENGINE == "mysql":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
@@ -119,6 +143,16 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+if importlib.util.find_spec("whitenoise") is not None:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

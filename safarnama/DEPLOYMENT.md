@@ -93,3 +93,40 @@ If something fails, check:
 - That your `.env` file has the correct values
 - That `ALLOWED_HOSTS` contains `yourusername.pythonanywhere.com`
 
+## Render quickstart
+
+This repository's Git root is one level above the Django app, so set your Render service `Root Directory` to:
+
+```text
+safarnama
+```
+
+Create a Render PostgreSQL database, then create a web service from the same repo.
+
+Use these settings:
+
+- Runtime: `Python 3`
+- Root Directory: `safarnama`
+- Build Command: `./build.sh`
+- Start Command: `gunicorn safarnama.wsgi:application`
+
+Set these environment variables in Render:
+
+- `DJANGO_SECRET_KEY`: generate a new secret
+- `DATABASE_URL`: use the Render Postgres internal database URL
+- `DEBUG`: `False`
+- `ALLOWED_HOSTS`: leave blank or set your Render hostname manually if needed
+- `CSRF_TRUSTED_ORIGINS`: `https://your-service-name.onrender.com`
+- `RAZORPAY_KEY_ID`: your Razorpay key
+- `RAZORPAY_KEY_SECRET`: your Razorpay secret
+- `EMAIL_HOST_USER`: your Gmail address
+- `EMAIL_HOST_PASSWORD`: your Gmail app password
+- `DEFAULT_FROM_EMAIL`: your Gmail address
+
+After the first successful deploy, open the Render Shell and run:
+
+```bash
+python manage.py createsuperuser
+```
+
+Note: static files are handled by WhiteNoise. Media uploads are still stored on the service filesystem, so any new uploads can be lost on redeploy unless you add persistent object storage later.
