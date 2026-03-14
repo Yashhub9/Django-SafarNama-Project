@@ -1,138 +1,36 @@
 {% extends "base.html" %}
 
+{% block title %}Safarnama | Search Results{% endblock title %}
+
 {% block body %}
-
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
-        /* General styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        /* Card container */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            justify-content: center;
-        }
-
-        /* Card styles */
-        .card {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .card-content h2 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: #444;
-        }
-
-        .card-content p {
-            font-size: 1rem;
-            color: #777;
-            margin-bottom: 15px;
-        }
-
-        .view-details-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .view-details-btn:hover {
-            background: linear-gradient(to right, #2575fc, #6a11cb);
-        }
-
-        /* Empty state */
-        .no-results {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #888;
-            margin-top: 50px;
-        }
-
-        .no-results p {
-            margin: 20px 0;
-        }
-    </style>
-</head>
-<body>
+<section class="section">
     <div class="container">
-        <h1>Search Results for "{{ query }}"</h1>
+        <div class="section-header reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-magnifying-glass"></i> Search results</p>
+            <h1 class="section-title">Results for "{{ query }}"</h1>
+        </div>
 
         {% if products %}
-            <div class="card-container">
-                {% for product in products %}
-                    <div class="card">
-                        <img src="{{ product.pimage.url }}" alt="{{ product.name }}" class="card-image">
-                        <div class="card-content">
-                            <h2>{{ product.name }}</h2>
-                            <p>Price: ₹{{ product.price }}</p>
-                            <a href="{% url 'productdetails' product.id %}" class="view-details-btn">View Details</a>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
+        <div class="search-grid">
+            {% for product in products %}
+            <article class="search-card reveal-up">
+                <img src="{{ product.pimage.url }}" alt="{{ product.name }}">
+                <div class="search-card__body">
+                    <h3>{{ product.name }}</h3>
+                    <p class="mini-note">{{ product.pdetails }}</p>
+                    <div class="current-price mt-3">Rs. {{ product.price }}</div>
+                    <a href="{% url 'productdetails' product.id %}" class="btn btn-brand mt-4">View Details</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
         {% else %}
-            <div class="no-results">
-                <p>No products found for "{{ query }}".</p>
-                <a href="{% url 'index' %}" class="view-details-btn">Back to Home</a>
-            </div>
+        <div class="empty-state reveal-up">
+            <h3>No products found for "{{ query }}"</h3>
+            <p class="mini-note">Try another destination or return to the main packages page.</p>
+            <a href="{% url 'index' %}" class="btn btn-brand mt-3">Browse Packages</a>
+        </div>
         {% endif %}
     </div>
-</body>
-</html>
-
+</section>
 {% endblock body %}

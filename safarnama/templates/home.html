@@ -1,755 +1,246 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Safarnama | Discover Your Next Escape{% endblock title %}
 
 {% block body %}
-
-{% load static%}
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Packages</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-     
-     <!-- Font Awesome -->
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }
-        .card img {
-            object-fit: cover;
-        }
-        .marquee-text {
-            background-color: grey;
-            color: black;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .card-title {
-            font-size: 1.25rem;
-        }
-        .google-review {
-            padding: 20px;
-        }
-        .card {
-            box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.2);
-        }
-        .btn-primary {
-            background-color: black;
-            border-color: black;
-        }
-        .btn-primary:hover {
-            background-color: #444;
-        }
-       /* General Section Styling */
-.container-fluid {
-    background-color: #f8f9fa;
-}
-
-.row.align-items-center {
-    position: relative;
-    z-index: 1;
-}
-
-/* Text Section Styling */
-.about-text {
-    border-radius: 10px;
-    position: relative;
-    z-index: 10;
-    margin-left: -50px; /* Overlap effect */
-    transform: translateY(-50px); /* Adjust overlap position */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-text:hover {
-    transform: translateY(-60px);
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Title Styling */
-.about-title {
-    letter-spacing: 5px;
-    font-weight: bold;
-}
-
-/* Description Styling */
-.about-description {
-    color: #555;
-    line-height: 1.8;
-}
-
-/* Button Styling */
-.btn-hover {
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.btn-hover:hover {
-    background-color: #0069d9;
-    transform: scale(1.05);
-}
-
-/* Image Hover Effects */
-.about-image {
-    transition: transform 0.5s ease;
-}
-
-.about-image:hover {
-    transform: scale(1.1);
-}
-
-.about-small-image {
-    border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-.about-small-image:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Shadow for small images */
-.shadow {
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-.card {
-    border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-img-top {
-    height: 220px;
-    object-fit: cover;
-}
-
-.card-body ul {
-    padding: 0;
-    font-size: 0.9rem;
-}
-
-.card-body p {
-    font-size: 1rem;
-    color: #333;
-}
-
-.card-body .text-warning {
-    font-size: 0.9rem;
-}
-
-.team-item {
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.team-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.team-img {
-    position: relative;
-    overflow: hidden;
-}
-
-.team-img img {
-    transition: transform 0.5s ease;
-}
-
-.team-item:hover .team-img img {
-    transform: scale(1.1);
-}
-
-.team-social {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    opacity: 0;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 15px 0;
-    transition: opacity 0.3s ease;
-}
-
-.team-item:hover .team-social {
-    opacity: 1;
-}
-
-.team-social a {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    border: 1px solid #27ae60;
-    color: #27ae60;
-    font-size: 1rem;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-.team-social a:hover {
-    background: #27ae60;
-    color: #fff;
-}
-
-.text-truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.text-center h5 {
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.text-center p {
-    font-size: 0.9rem;
-    color: #777;
-    margin: 0;
-}
-
-/* Testimonial Card Styling */
-.testimonial-card {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.testimonial-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Image Styling */
-.testimonial-card img {
-    border: 5px solid #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Text Styling */
-.testimonial-card .card-text {
-    font-size: 14px;
-    font-style: italic;
-    color: #555;
-    margin-bottom: 15px;
-}
-
-.testimonial-card h5 {
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
-}
-
-.testimonial-card span {
-    font-size: 14px;
-    color: #777;
-}
-
-/* General styling for the carousel */
-#carouselExampleCaptions {
-    position: relative;
-    height: 100vh; /* Full viewport height */
-}
-
-.carousel-inner {
-    height: 100%; /* Ensure full height for each slide */
-}
-
-.carousel-item {
-    height: 100%;
-}
-
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures images fill the container without distortion */
-}
-
-.carousel-caption {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white;
-    background: rgba(0, 0, 0, 0.5); /* Slight background for better text visibility */
-    padding: 20px;
-    border-radius: 5px;
-}
-
-.carousel-caption h5 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.carousel-caption p {
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
-}
-
-/* Book Now Button Container - Positioned at the bottom */
-.carousel-button-container {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    text-align: center;
-}
-
-.carousel-button-container .btn {
-    font-size: 1.1rem;
-    padding: 12px 30px;
-    background-color: #ff7b00; /* Button color */
-    border: none;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
-}
-
-.carousel-button-container .btn:hover {
-    background-color: #e56a00; /* Hover effect */
-}
-
-/* Carousel Control Button Styles */
-.carousel-control-prev,
-.carousel-control-next {
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    font-size: 2rem;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: white;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    width: 30px;
-    height: 30px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .carousel-caption h5 {
-        font-size: 1.5rem;
-    }
-
-    .carousel-caption p {
-        font-size: 1rem;
-    }
-
-    .carousel-caption .btn {
-        font-size: 1rem;
-        padding: 10px 20px;
-    }
-}
-
-.explore-btn {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 10px 30px;
-  background-color: #28a745; /* Green that matches a fresh design */
-  color: white;
-  border: none;
-  border-radius: 8px; /* Slightly rounded for a modern look */
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase; /* Makes the text all caps for emphasis */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  transition: all 0.3s ease; /* Smooth hover effect */
-}
-
-.explore-btn:hover {
-  background-color: #218838; /* Darker green on hover */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow */
-  transform: scale(1.05); /* Subtle scaling effect */
-}
-
-
-
-        
-    </style>
-</head>
-<body>
-
-    <!-- Carousel Start -->
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="{% static 'images/carousel-1.jpg' %}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                <h5>Explore The World</h5>
-                <p>Discover unique places and create memories that last forever.</p>
-            </div>
-            <div class="carousel-button-container">
-                <a href="/index" class="btn btn-primary">Book Now</a>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="{% static 'images/carousel-2.jpg' %}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                <h5>Adventure Awaits</h5>
-                <p>Experience the thrill of a lifetime with our exclusive tours.</p>
-            </div>
-            <div class="carousel-button-container">
-                <a href="/index" class="btn btn-primary">Explore More</a>
-            </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-<!-- Carousel End -->
-
-   <!-- About Start -->
-<div class="container-fluid py-5">
-    <div class="container pt-5">
-        <div class="row">
-
-            <!-- Left Image Section -->
-            <div class="col-lg-6" style="min-height: 500px;">
-                <div class="position-relative h-100">
-                    <img 
-                        class="position-absolute w-100 h-100 about-image" 
-                        src="{% static 'images/about.jpg' %}" 
-                        style="object-fit: cover;" 
-                        alt="About Us Image"
-                    >
-                </div>
-            </div>
-            <!-- Right Content Section -->
-            
-            <div class="col-lg-6 pt-5 pb-lg-5"  >
-    
-                <div class="about-text bg-white p-4 p-lg-5 my-lg-5 shadow">
-                   
-                    <h6 class="text-primary text-uppercase about-title">About Us</h6>
-                    <h1 class="mb-3">We Provide Best Tour Packages In Your Budget</h1>
-                    <p class="about-description">
-                        Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum labore sit sit ut vero no sit. 
-                        Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos et erat sed diam duo.
+<section class="hero">
+    <div class="container">
+        <div class="hero-panel reveal-up" style="background-image: url('{% static "images/carousel-1.jpg" %}');">
+            <div class="hero-content">
+                <div class="tag-pill">Tailored journeys across India</div>
+                <div>
+                    <p class="eyebrow"><i class="fa-solid fa-location-arrow"></i> Plan less. Experience more.</p>
+                    <h1 class="display-title" data-parallax>Beautiful trips with smoother planning and richer stays.</h1>
+                    <p class="lead-copy">
+                        Safarnama helps you move from endless travel tabs to one clear plan,
+                        with budget-friendly packages, guided support, and memorable destinations.
                     </p>
-                    <div class="row mb-4">
-                        <div class="col-6">
-                            <img 
-                                class="img-fluid about-small-image" 
-                                src="{% static 'images/about-1.jpg' %}" 
-                                alt="Tour Image 1"
-                            >
-                        </div>
-                        <div class="col-6">
-                            <img 
-                                class="img-fluid about-small-image" 
-                                src="{% static 'images/about-2.jpg' %}" 
-                                alt="Tour Image 2"
-                            >
-                        </div>
-                    </div>
-                    <a href="/index" class="btn btn-primary mt-1 btn-hover">Book Now</a>
                 </div>
-            </div>
-        </div>
-    
-    </div>
-</div>
-<!-- About End -->
-
-
-
-<!-- Sliders Section
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-           <a href="/index"> <img src="/static/images/slider11.jpeg" class="d-block w-100" alt="Beautiful Landscape" style="height: 300px;" ></a>
-
-        </div>
-        <div class="carousel-item">
-           <a href="/index"> <img src="/static/images/travelslider1.avif" class="d-block w-100" alt="Adventure Travel" style="height: 300px;" ></a>
-        </div>
-        <div class="carousel-item">
-            <a href="/index"> <img src="/static/images/slider03.jpg" class="d-block w-100" alt="Exotic Destination" style="height: 300px;"></a>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
- -->
-
- 
-
-
-
- <!-- Tour Packages Section -->
-<section class="container my-5">
-    <h3 class="text-center text-success text-uppercase fw-bold">Perfect Tour Packages</h3>
-    <div class="row gy-4 mt-4">
-        <!-- Card 1 -->
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card border-0 shadow-sm text-center">
-                <a href="/productdetails/2"><img src="/static/images/rajasthan.jfif" class="card-img-top rounded-3" alt="Tour Package"></a>
-                <div class="card-body">
-                    <ul class="list-inline text-muted mb-3">
-                        <li class="list-inline-item"><i class="bi bi-geo-alt-fill text-success"></i> Rajasthan</li>
-                        <li class="list-inline-item"><i class="bi bi-calendar-event text-success"></i> 7 days</li>
-                        
-                    </ul>
-                    <p class="fw-bold">Discover amazing places of the world with us</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-warning">
-                            <i class="bi bi-star-fill"></i> 4.5 (250)
-                        </span>
-                        <span class="fw-bold fs-5">₹ 12000</span>
+                <div class="hero-actions">
+                    <a href="/index" class="btn btn-brand">Explore Packages</a>
+                    <a href="/aboutus" class="btn btn-outline-brand">Why Travelers Choose Us</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-chip">
+                        <strong>40+</strong>
+                        <span>Handpicked itineraries</span>
+                    </div>
+                    <div class="stat-chip">
+                        <strong>4.8/5</strong>
+                        <span>Happy traveler satisfaction</span>
+                    </div>
+                    <div class="stat-chip">
+                        <strong>24/7</strong>
+                        <span>Booking support</span>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Card 2 -->
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card border-0 shadow-sm text-center">
-                <a href="productdetails/1"><img src="/static/images/kerla.jpg" class="card-img-top rounded-3" alt="Tour Package"></a>
-                <div class="card-body">
-                    <ul class="list-inline text-muted mb-3">
-                        <li class="list-inline-item"><i class="bi bi-geo-alt-fill text-success"></i> Kerala</li>
-                        <li class="list-inline-item"><i class="bi bi-calendar-event text-success"></i> 8 days</li>
-                        
-                    </ul>
-                    <p class="fw-bold">Discover amazing places of the world with us</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-warning">
-                            <i class="bi bi-star-fill"></i> 4.5 (250)
-                        </span>
-                        <span class="fw-bold fs-5">₹ 10000</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card border-0 shadow-sm text-center">
-                <a href="productdetails/5"><img src="/static/images/kedarnath.webp" class="card-img-top rounded-3" alt="Tour Package"></a>
-                <div class="card-body">
-                    <ul class="list-inline text-muted mb-3">
-                        <li class="list-inline-item"><i class="bi bi-geo-alt-fill text-success"></i> Kedarnath</li>
-                        <li class="list-inline-item"><i class="bi bi-calendar-event text-success"></i> 4 days</li>
-                        
-                    </ul>
-                    <p class="fw-bold">Discover amazing places of the world with us</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-warning">
-                            <i class="bi bi-star-fill"></i> 4.5 (250)
-                        </span>
-                        <span class="fw-bold fs-5">₹ 19000</span>
-                    </div>
-                </div>
-                
-            </div>
-            
-        </div>
-        <a href="/index" class="btn btn-primary mt-1 btn-hover">explore more</a>
     </div>
 </section>
 
-<!-- Reviews Section -->
-<!-- <h1>Google Form Reviews</h1>
-<ul>
-    {% for review in reviews %}
-        <li>
-            <strong>{{ review.name }}</strong>: <em>{{ review.review }}</em>
-            <br>
-            <small>Rating: {{ review.rating }} | Submitted on: {{ review.created_at }}</small>
-        </li>
-    {% endfor %}
-</ul>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
--->
-
-
- <!-- Team Start -->
- <div class="container-fluid py-5">
-    <div class="container pt-5 pb-3">
-        <div class="text-center mb-3 pb-3">
-            <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Guides</h6>
-            <h1>Our Travel Guides</h1>
+<section class="section">
+    <div class="container">
+        <div class="section-header reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-sparkles"></i> Better travel flow</p>
+            <h2 class="section-title">A more effective way to plan your trip</h2>
+            <p class="section-copy">
+                We focus on the parts that actually matter to travelers: clear package details,
+                practical pricing, mobile-friendly booking, and human support when plans change.
+            </p>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-2">
-                <div class="team-item bg-white mb-4">
-                    <div class="team-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="{% static 'images/team-1.jpg' %}" alt="">
-                        <div class="team-social">
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <h5 class="text-truncate">Emily Johnson</h5>
-                        <p class="m-0">Travel Consultant</p>
-                    </div>
+        <div class="grid-3">
+            <article class="feature-card reveal-up">
+                <div class="feature-icon"><i class="fa-solid fa-route"></i></div>
+                <h3>Curated itineraries</h3>
+                <p class="mini-note">Thoughtful day plans so travelers know what the trip actually feels like before booking.</p>
+            </article>
+            <article class="feature-card reveal-up">
+                <div class="feature-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                <h3>Budget clarity</h3>
+                <p class="mini-note">Simple price presentation with discount visibility and faster comparison across packages.</p>
+            </article>
+            <article class="feature-card reveal-up">
+                <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                <h3>Responsive booking</h3>
+                <p class="mini-note">Designed to work comfortably on phones, tablets, and laptops without layout breaks.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container split-section">
+        <div class="media-frame reveal-up">
+            <img src="{% static 'images/about.jpg' %}" alt="Travelers enjoying a destination">
+        </div>
+        <div class="floating-card reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-earth-asia"></i> About Safarnama</p>
+            <h2 class="section-title">Packages that feel polished, not overwhelming</h2>
+            <p class="section-copy">
+                From quick temple trips to longer mountain escapes, we build travel options that are
+                easier to scan, compare, and book. That means less guessing and more confidence.
+            </p>
+            <div class="stats-row">
+                <div class="stat-card">
+                    <strong>12+</strong>
+                    <span>Years creating trips</span>
+                </div>
+                <div class="stat-card">
+                    <strong>20+</strong>
+                    <span>Popular destinations</span>
+                </div>
+                <div class="stat-card">
+                    <strong>100%</strong>
+                    <span>Supportive planning</span>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-2">
-                <div class="team-item bg-white mb-4">
-                    <div class="team-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="{% static 'images/team-2.jpg' %}" alt="">
-                        <div class="team-social">
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <h5 class="text-truncate"> Liam Carter</h5>
-                        <p class="m-0">Adventure Specialist</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-2">
-                <div class="team-item bg-white mb-4">
-                    <div class="team-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="{% static 'images/team-3.jpg' %}" alt="">
-                        <div class="team-social">
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <h5 class="text-truncate">Sophia Wilson</h5>
-                        <p class="m-0">Eco-Tourism Guide</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-2">
-                <div class="team-item bg-white mb-4">
-                    <div class="team-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="{% static 'images/team-4.jpg' %}" alt="">
-                        <div class="team-social">
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-primary btn-square" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <h5 class="text-truncate">Noah Martinez</h5>
-                        <p class="m-0">Wildlife Expert</p>
-                    </div>
-                </div>
+            <div class="inline-actions mt-4">
+                <a href="/aboutus" class="btn btn-brand">Read Our Story</a>
+                <a href="/contactus/" class="btn btn-soft">Talk to the Team</a>
             </div>
         </div>
     </div>
-</div>
-<!-- Team End -->
+</section>
 
-<!-- Testimonial Start -->
-<div class="container-fluid py-5">
-    <div class="container py-5">
-        <div class="text-center mb-3 pb-3">
-            <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Testimonial</h6>
-            <h1>What Our Clients Say</h1>
+<section class="section">
+    <div class="container">
+        <div class="section-header reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-suitcase-rolling"></i> Featured packages</p>
+            <h2 class="section-title">Popular journeys travelers love to book</h2>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card testimonial-card">
-                    <div class="card-body text-center">
-                        <img class="rounded-circle mb-3" src="{% static 'images/testimonial-2.jpg' %}" alt="Client Image" style="width: 100px; height: 100px;">
-                        <p class="card-text">"This was the best travel experience I've ever had. The guide was knowledgeable and made the trip unforgettable!"</p>
-                        <h5 class="text-truncate">Olivia Bennett</h5>
-                        <span class="text-muted">Software Engineer</span>
+        <div class="grid-3">
+            {% for package in products|slice:":3" %}
+            <article class="package-card reveal-up">
+                <img src="{{ package.pimage.url }}" alt="{{ package.name }}">
+                <div class="package-card__body">
+                    <div class="package-meta">
+                        <span><i class="fa-solid fa-location-dot"></i> {{ package.name }}</span>
+                        <span><i class="fa-regular fa-clock"></i> {{ package.duration }}</span>
+                    </div>
+                    <h3>{{ package.name }}</h3>
+                    <p class="mini-note">{{ package.pdetails }}</p>
+                    <div class="price-row">
+                        <div>
+                            <div class="current-price">Rs. {{ package.price }}</div>
+                            {% if package.original_price %}
+                            <div class="old-price">Rs. {{ package.original_price }}</div>
+                            {% endif %}
+                        </div>
+                        {% if package.discount_percentage %}
+                        <span class="discount-pill">{{ package.discount_percentage }}% Off</span>
+                        {% endif %}
+                    </div>
+                    <div class="inline-actions mt-4">
+                        <a href="{% url 'productdetails' package.id %}" class="btn btn-brand">View Details</a>
                     </div>
                 </div>
+            </article>
+            {% empty %}
+            <div class="empty-state reveal-up">
+                <h3>No featured packages available right now</h3>
+                <p class="mini-note">Add products in the admin panel and they will appear here automatically.</p>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card testimonial-card">
-                    <div class="card-body text-center">
-                        <img class="rounded-circle mb-3" src="{% static 'images/testimonial-1.jpg' %}" alt="Client Image" style="width: 100px; height: 100px;">
-                        <p class="card-text">"The destinations were breathtaking, and the guide's passion for the area was inspiring."</p>
-                        <h5 class="text-truncate">James Moore</h5>
-                        <span class="text-muted">Writer</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card testimonial-card">
-                    <div class="card-body text-center">
-                        <img class="rounded-circle mb-3" src="{% static 'images/testimonial-3.jpg' %}" alt="Client Image" style="width: 100px; height: 100px;">
-                        <p class="card-text">"The tour was well-organized, and I loved the unique recommendations the guide provided. Highly recommend!"
-                        </p>
-                        <h5 class="text-truncate">Ethan Taylor</h5>
-                        <span class="text-muted">Marketing Specialist</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card testimonial-card">
-                    <div class="card-body text-center">
-                        <img class="rounded-circle mb-3" src="{% static 'images/testimonial-4.jpg' %}" alt="Client Image" style="width: 100px; height: 100px;">
-                        <p class="card-text">"The entire journey was magical. The guides were professional and made sure every moment was memorable!"</p>
-                        <h5 class="text-truncate">Benjamin Harris</h5>
-                        <span class="text-muted">Entrepreneur</span>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4 reveal-up">
+            <a href="/index" class="btn btn-outline-brand">Browse All Packages</a>
         </div>
     </div>
-</div>
-<!-- Testimonial End -->
+</section>
 
+<section class="section">
+    <div class="container">
+        <div class="section-header reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-user-group"></i> Travel guides</p>
+            <h2 class="section-title">Friendly experts who make trips smoother</h2>
+        </div>
+        <div class="grid-4">
+            <article class="team-card reveal-up">
+                <img src="{% static 'images/team-1.jpg' %}" alt="Emily Johnson">
+                <div class="package-card__body">
+                    <h3>Emily Johnson</h3>
+                    <p class="mini-note">Travel Consultant</p>
+                    <div class="guide-social">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </article>
+            <article class="team-card reveal-up">
+                <img src="{% static 'images/team-2.jpg' %}" alt="Liam Carter">
+                <div class="package-card__body">
+                    <h3>Liam Carter</h3>
+                    <p class="mini-note">Adventure Specialist</p>
+                    <div class="guide-social">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </article>
+            <article class="team-card reveal-up">
+                <img src="{% static 'images/team-3.jpg' %}" alt="Sophia Wilson">
+                <div class="package-card__body">
+                    <h3>Sophia Wilson</h3>
+                    <p class="mini-note">Eco-Tourism Guide</p>
+                    <div class="guide-social">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </article>
+            <article class="team-card reveal-up">
+                <img src="{% static 'images/team-4.jpg' %}" alt="Noah Martinez">
+                <div class="package-card__body">
+                    <h3>Noah Martinez</h3>
+                    <p class="mini-note">Wildlife Expert</p>
+                    <div class="guide-social">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
 
-{% endblock body %} 
+<section class="section">
+    <div class="container">
+        <div class="section-header reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-heart"></i> Testimonials</p>
+            <h2 class="section-title">What travelers say after the journey</h2>
+        </div>
+        <div class="grid-4">
+            <article class="testimonial-card reveal-up">
+                <img class="avatar mb-3" src="{% static 'images/testimonial-2.jpg' %}" alt="Olivia Bennett">
+                <blockquote>"This was the smoothest travel booking experience I have had. Everything felt clear and well-planned."</blockquote>
+                <h3>Olivia Bennett</h3>
+                <p class="mini-note">Software Engineer</p>
+            </article>
+            <article class="testimonial-card reveal-up">
+                <img class="avatar mb-3" src="{% static 'images/testimonial-1.jpg' %}" alt="James Moore">
+                <blockquote>"Great itinerary, excellent support, and the destination matched the vibe promised on the site."</blockquote>
+                <h3>James Moore</h3>
+                <p class="mini-note">Writer</p>
+            </article>
+            <article class="testimonial-card reveal-up">
+                <img class="avatar mb-3" src="{% static 'images/testimonial-3.jpg' %}" alt="Ethan Taylor">
+                <blockquote>"The package details were easy to understand, which made choosing the trip much faster."</blockquote>
+                <h3>Ethan Taylor</h3>
+                <p class="mini-note">Marketing Specialist</p>
+            </article>
+            <article class="testimonial-card reveal-up">
+                <img class="avatar mb-3" src="{% static 'images/testimonial-4.jpg' %}" alt="Benjamin Harris">
+                <blockquote>"Professional team, memorable experience, and a site that finally works properly on mobile."</blockquote>
+                <h3>Benjamin Harris</h3>
+                <p class="mini-note">Entrepreneur</p>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock body %}

@@ -1,108 +1,66 @@
 {% extends "base.html" %}
 
+{% block title %}Safarnama | Contact Us{% endblock title %}
+
 {% block body %}
+<section class="section">
+    <div class="container">
+        <div class="section-header reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-paper-plane"></i> Contact us</p>
+            <h1 class="section-title">Let’s plan the right trip for you</h1>
+            <p class="section-copy">
+                Send your destination, dates, or budget and we’ll help shape the best package for it.
+            </p>
+        </div>
 
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
+        <div class="grid-2">
+            <div class="contact-panel glass-card reveal-up">
+                <div class="contact-method">
+                    <div class="contact-method__icon"><i class="fa-solid fa-phone"></i></div>
+                    <div>
+                        <h3>Call us</h3>
+                        <p class="mini-note">+91 99999 99999</p>
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-method__icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div>
+                        <h3>Email us</h3>
+                        <p class="mini-note">safarnama9@gmail.com</p>
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-method__icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div>
+                        <h3>Coverage</h3>
+                        <p class="mini-note">Tours and departures planned across India.</p>
+                    </div>
+                </div>
+            </div>
 
-        .form-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #37474F;
-        }
-
-        .form1 {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        label {
-            font-weight: bold;
-            color: #555;
-        }
-
-        input, textarea, button {
-            font-size: 1rem;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #007bff; /* Blue highlight */
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Glow effect */
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        button {
-            background-color: #007bff; /* Blue color */
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            padding: 12px 20px;
-            text-align: center;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3; /* Darker blue */
-            transform: translateY(-2px); /* Subtle lift effect */
-        }
-
-        button:active {
-            transform: translateY(0); /* Reset on click */
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <h1>Contact Us</h1>
-        <form action="{% url 'contact' %}" class="form1" method="POST">
-            {% csrf_token %}
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required>
-
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-
-            <label for="phone">Your Phone Number:</label>
-            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
-
-            <label for="message">Your Message:</label>
-            <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
-
-            <button type="submit">Send Message</button>
-        </form>
+            <div class="contact-panel glass-card reveal-up">
+                <form action="{% url 'contact' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Your name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone number</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter your phone number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" name="message" class="form-control" placeholder="Tell us what kind of trip you want" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-brand w-100">Send Message</button>
+                </form>
+            </div>
+        </div>
     </div>
-</body>
-</html>
-
+</section>
 {% endblock body %}

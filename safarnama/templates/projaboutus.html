@@ -1,48 +1,63 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Safarnama | About Us{% endblock title %}
 
 {% block body %}
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nerko+One&family=Playwrite+CU:wght@100..400&family=Sofadi+One&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<style>
-  .cl2{
-    :hover{transform: scale(1.02);transition: 1s;}
-  }
-</style>
-</head>
-<body>
-      
-  <!--about us start-->
-  <div style="display: inline-flex;">
-    <div>
-        <img src="/static/images/aboutus1.png" width="800px"  height="500px">
-    </div>
-    <div style="background-color: gray; padding-left: 5px;padding-top: 60px;" >
-        <h3 style="text-align: center;">About Us</h3>
-        <p>Welcome to Safarnama, where we transform ordinary vacations into extraordinary adventures! Established in 2010, our company was built on a passion for travel and a mission to connect explorers with the wonders of the world.
-
-            With our deep local knowledge and global network, we offer curated experiences that immerse you in the culture, history, and natural beauty of each destination. From serene getaways to thrilling escapades, we design itineraries that cater to every traveler's unique preferences. Whether you're dreaming of tropical beaches, ancient landmarks, or breathtaking landscapes, we are your trusted guides.
-            
-            At Safarnama, we believe travel is more than just sightseeing – it’s about creating memories that last a lifetime. That's why we work with top industry partners to ensure your trip is seamless and stress-free, leaving you to enjoy every moment to the fullest.
-            
-            Our dedicated team of travel experts is here to make your dream vacation a reality. We handle everything from accommodations and activities to transportation, ensuring you experience the best of each destination.
-            
-            Join us, and let’s explore the world together!
-            
+<section class="section">
+    <div class="container split-section">
+        <div class="floating-card reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-compass-drafting"></i> About us</p>
+            <h1 class="section-title">We turn ordinary holidays into clearer, better-planned journeys</h1>
+            <p class="section-copy">
+                Safarnama was built around a simple travel truth: people enjoy trips more when the planning
+                feels easy. We help travelers move from browsing to booking with destination-focused packages,
+                practical itineraries, and support that feels human.
             </p>
+            <p class="section-copy">
+                Whether someone wants a calm getaway, a devotional route, or an adventure-filled tour,
+                we shape the experience so expectations are clear and every day of the journey feels intentional.
+            </p>
+            <div class="stats-row">
+                <div class="stat-card">
+                    <strong>2010</strong>
+                    <span>Founded to simplify travel planning</span>
+                </div>
+                <div class="stat-card">
+                    <strong>Pan-India</strong>
+                    <span>Destination coverage</span>
+                </div>
+                <div class="stat-card">
+                    <strong>Trusted</strong>
+                    <span>Support before and after booking</span>
+                </div>
+            </div>
+        </div>
+        <div class="media-frame reveal-up">
+            <img src="{% static 'images/aboutus1.png' %}" alt="About Safarnama">
+        </div>
     </div>
-  </div>
-  {% endblock body %}
-</body>
-</html>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="grid-3">
+            <article class="feature-card reveal-up">
+                <div class="feature-icon"><i class="fa-solid fa-bullseye"></i></div>
+                <h3>Our mission</h3>
+                <p class="mini-note">Make travel packages easier to understand, easier to compare, and easier to book from any device.</p>
+            </article>
+            <article class="feature-card reveal-up">
+                <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                <h3>Our promise</h3>
+                <p class="mini-note">Friendly support, practical budgets, and memorable trips that reflect the destination honestly.</p>
+            </article>
+            <article class="feature-card reveal-up">
+                <div class="feature-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+                <h3>Our focus</h3>
+                <p class="mini-note">Experiences that blend comfort, culture, and discovery without making the website feel overwhelming.</p>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock body %}

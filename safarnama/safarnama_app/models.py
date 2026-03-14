@@ -25,7 +25,7 @@ class product(models.Model):
    
 
 
-    def _str_(self):
+    def __str__(self):
         return self.name
 class cart(models.Model):
     uid=models.ForeignKey(User,on_delete=models.CASCADE,db_column="uid")   
@@ -84,23 +84,6 @@ class PasswordResetOTP(models.Model):
         from datetime import timedelta, timezone
         return self.created_at >= timezone.now() - timedelta(minutes=10)
     
-class Payment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    customers = models.TextField(help_text="Comma-separated customer names")  # Store multiple names
-    customer_count = models.IntegerField(default=1)  # Number of customers
-    amount_per_customer = models.DecimalField(max_digits=10, decimal_places=2, default=500.00)  # Price per customer
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=20, default='Pending')
-    payment_id = models.CharField(max_length=100, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user} - {self.total_amount}"
-    
-
-# models.py
-from django.db import models
-
 class Contact(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -110,3 +93,17 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email}"
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    customers = models.TextField(help_text='Comma-separated customer names')
+    customer_count = models.IntegerField(default=1)
+    amount_per_customer = models.DecimalField(max_digits=10, decimal_places=2, default=500.00)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=20, default='Pending')
+    payment_id = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment {self.payment_id or self.pk}"

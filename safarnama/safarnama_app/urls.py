@@ -19,34 +19,25 @@ from django.urls import path
 from safarnama_app import views
 from safarnama import settings
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('index',views.index),
-    path('aboutus',views.aboutus),
-    path('',views.home),
-    path('register',views.register),
-    path('login',views.user_login),
+    path('index',views.index, name='index'),
+    path('aboutus',views.aboutus, name='aboutus'),
+    path('',views.home, name='home'),
+    path('register',views.register, name='register'),
+    path('login',views.user_login, name='user_login'),
     path('productdetails/<pid>',views.productdetails),
-    path('kerala',views.kerala),
-    path('kedarnath',views.kedarnath),
-    path('ladakh',views.ladakh),
-    path('goa',views.goa),
-    path('rajasthan',views.rajasthan),
-    path('logout',views.user_logout),
-    path('range',views.range),
-    path('sort/<sv>',views.sort),
-    path('addcart/<pid>',views.addtocart),
-    path('viewcart',views.viewcart),
-    path("fetch-reviews/", views.fetch_reviews, name="fetch_reviews"),
+    path('logout',views.user_logout, name='logout'),
+    path('range',views.range, name='range'),
+    path('sort/<sv>',views.sort, name='sort'),
     path('search/', views.search_products, name='search_products'),
     path('productdetails/<int:pid>/', views.productdetails, name='productdetails'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
     path('enterotp/', views.enter_otp, name='enter_otp'),
     path('resetpassword/', views.reset_password, name='reset_password'),
     path('booking/<int:product_id>/', views.booking_page, name='booking'),
-    path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('contactus/',views.contactus),
+    path('accounts/login/', views.user_login),
+    path('contactus/',views.contactus, name='contactus'),
     path('contact/', views.contact_us, name='contact'),
     
     

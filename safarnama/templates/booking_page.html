@@ -1,207 +1,123 @@
 {% extends "base.html" %}
 
+{% block title %}Safarnama | Booking{% endblock title %}
+
 {% block body %}
-
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Page</title>
-    <script>
-        function updatePriceAndPassengers() {
-    const passengerCount = parseInt(document.getElementById('passenger_count').value) || 0;
-    const pricePerPassenger = parseFloat("{{ product.price }}"); // Parse price as a float
-    const totalPrice = passengerCount * pricePerPassenger;
-
-    // Update total price
-    document.getElementById('total_price').value = totalPrice;
-
-    // Update passenger details fields
-    const passengerDetailsDiv = document.getElementById('passenger_details');
-    passengerDetailsDiv.innerHTML = ''; // Clear previous fields
-    for (let i = 1; i <= passengerCount; i++) {
-        const passengerDiv = document.createElement('div');
-        passengerDiv.className = 'passenger-detail';
-
-        passengerDiv.innerHTML = `
-            <h4>Passenger ${i}</h4>
-            <label for="passenger_name_${i}">Name:</label>
-            <input type="text" name="passenger_name_${i}" id="passenger_name_${i}" required>
-            
-            <label for="passenger_age_${i}">Age:</label>
-            <input type="number" name="passenger_age_${i}" id="passenger_age_${i}" required>
-            
-            <label for="passenger_gender_${i}">Gender:</label>
-            <select name="passenger_gender_${i}" id="passenger_gender_${i}" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-        `;
-
-        passengerDetailsDiv.appendChild(passengerDiv);
-    }
-}
-
-    </script>
-    
-</head>
-<style>
-    /* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f7fc;
-}
-
-.container {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-p {
-    font-size: 1.1rem;
-    color: #555;
-}
-
-h4 {
-    margin-top: 20px;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-label {
-    display: block;
-    font-size: 1rem;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-input[type="text"],
-input[type="number"],
-select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    color: #333;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-select:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-#passenger_details {
-    margin-top: 20px;
-}
-
-.passenger-detail {
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    padding: 12px 25px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button:disabled {
-    background-color: #ddd;
-    cursor: not-allowed;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    button {
-        font-size: 1rem;
-    }
-}
-
-</style>
-<body>
+<section class="booking-section">
     <div class="container">
-        <h1>Book Package: {{ product.name }}</h1>
-        <p>Price per Passenger: ₹{{ product.price }}</p>
+        <div class="booking-card reveal-up">
+            <p class="eyebrow"><i class="fa-solid fa-ticket"></i> Booking</p>
+            <h1>Book {{ product.name }}</h1>
+            <p class="mini-note">Update passenger count to instantly calculate the total and expand the traveler details form.</p>
 
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="passenger_count">Number of Passengers:</label>
-                <input
-                    type="number"
-                    name="passenger_count"
-                    id="passenger_count"
-                    min="1"
-                    value="1"
-                    onchange="updatePriceAndPassengers()"
-                    required
-                >
-            </div>
-            <div class="form-group">
-                <label for="total_price">Total Price:</label>
-                <input type="text" name="total_price" id="total_price" value="{{ product.price }}" readonly>
+            <div class="grid-2 mt-4">
+                <div class="info-card">
+                    <h3>Package snapshot</h3>
+                    <p class="mini-note mb-2"><strong>Destination:</strong> {{ product.name }}</p>
+                    <p class="mini-note mb-2"><strong>Duration:</strong> {{ product.duration }}</p>
+                    <p class="mini-note mb-0"><strong>Price per passenger:</strong> Rs. {{ product.price }}</p>
+                </div>
+                <div class="info-card">
+                    <h3>Booking note</h3>
+                    <p class="mini-note mb-0">The page is now optimized for smaller screens, so travelers can fill details without the form breaking or overflowing.</p>
+                </div>
             </div>
 
-            <div id="passenger_details">
-                <!-- Passenger details will be dynamically added here -->
-                <h4>Passenger 1</h4>
-                <label for="passenger_name_1">Name:</label>
-                <input type="text" name="passenger_name_1" id="passenger_name_1" required>
-                <label for="passenger_age_1">Age:</label>
-                <input type="number" name="passenger_age_1" id="passenger_age_1" required>
-                <label for="passenger_gender_1">Gender:</label>
-                <select name="passenger_gender_1" id="passenger_gender_1" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
+            <form method="POST" class="mt-4">
+                {% csrf_token %}
+                <div class="grid-2">
+                    <div class="mb-3">
+                        <label for="passenger_count" class="form-label">Number of passengers</label>
+                        <input type="number" name="passenger_count" id="passenger_count" min="1" value="1" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total_price" class="form-label">Total price</label>
+                        <input type="text" name="total_price" id="total_price" value="{{ product.price }}" class="form-control" readonly>
+                    </div>
+                </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Proceed to Payment</button>
-        </form>
+                <div id="passenger_details" class="passenger-stack">
+                    <div class="passenger-card">
+                        <h3 class="mb-3">Passenger 1</h3>
+                        <div class="grid-2">
+                            <div class="mb-3">
+                                <label for="passenger_name_1" class="form-label">Name</label>
+                                <input type="text" name="passenger_name_1" id="passenger_name_1" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passenger_age_1" class="form-label">Age</label>
+                                <input type="number" name="passenger_age_1" id="passenger_age_1" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="book_date_1" class="form-label">Travel date</label>
+                                <input type="date" name="book_date_1" id="book_date_1" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passenger_gender_1" class="form-label">Gender</label>
+                                <select name="passenger_gender_1" id="passenger_gender_1" class="form-select" required>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-brand mt-4">Proceed to Payment</button>
+            </form>
+        </div>
     </div>
-</body>
-</html>
-
+</section>
 {% endblock body %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passengerCountInput = document.getElementById("passenger_count");
+        const totalPriceInput = document.getElementById("total_price");
+        const passengerDetails = document.getElementById("passenger_details");
+        const pricePerPassenger = parseFloat("{{ product.price }}");
+
+        function renderPassengerFields() {
+            const passengerCount = Math.max(parseInt(passengerCountInput.value || "1", 10), 1);
+            totalPriceInput.value = (passengerCount * pricePerPassenger).toFixed(2);
+            passengerDetails.innerHTML = "";
+
+            for (let i = 1; i <= passengerCount; i += 1) {
+                const passengerCard = document.createElement("div");
+                passengerCard.className = "passenger-card";
+                passengerCard.innerHTML = `
+                    <h3 class="mb-3">Passenger ${i}</h3>
+                    <div class="grid-2">
+                        <div class="mb-3">
+                            <label for="passenger_name_${i}" class="form-label">Name</label>
+                            <input type="text" name="passenger_name_${i}" id="passenger_name_${i}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passenger_age_${i}" class="form-label">Age</label>
+                            <input type="number" name="passenger_age_${i}" id="passenger_age_${i}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="book_date_${i}" class="form-label">Travel date</label>
+                            <input type="date" name="book_date_${i}" id="book_date_${i}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passenger_gender_${i}" class="form-label">Gender</label>
+                            <select name="passenger_gender_${i}" id="passenger_gender_${i}" class="form-select" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                `;
+                passengerDetails.appendChild(passengerCard);
+            }
+        }
+
+        passengerCountInput.addEventListener("input", renderPassengerFields);
+        renderPassengerFields();
+    });
+</script>
+{% endblock extra_scripts %}

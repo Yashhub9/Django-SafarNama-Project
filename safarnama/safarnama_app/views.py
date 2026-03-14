@@ -2,12 +2,10 @@ from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
 from safarnama_app.models import product,cart, orders,Booking
-from .utils import fetch_and_save_google_form_responses
 from .models import Review
 from django.db.models import Q
 from .models import product
 from django.core.mail import send_mail
-import razorpay
 from django.conf import settings
 from safarnama_app.models import PasswordResetOTP
 from django.contrib import messages
@@ -31,7 +29,7 @@ def home(request):
     p=product.objects.filter(is_active=True)
     context={}
     context['products']=p
-    return render(request,'home.html')
+    return render(request,'home.html',context)
 
 def aboutus(request):
     return render(request,"projaboutus.html")
@@ -87,20 +85,6 @@ def productdetails(request,pid):
     context['products']=p
     return render(request,'productdetails.html',context)
 
-def kerala(request):
-    return render(request,'proker.html')
-
-def kedarnath(request):
-    return render(request,'proked.html')
-
-def ladakh(request):
-    return render(request,'proladakh.html')
-
-def goa(request):
-    return render(request,'progoa.html')
-
-def rajasthan(request):
-    return render(request,'projraj.html')
 
 def user_logout(request):
     logout(request)
@@ -130,48 +114,14 @@ def range(request):
     return render(request,'index.html',context)
 
 
-
-
-def addtocart(request, booking_id):
-    if request.user.is_authenticated:
-        user_id = request.user.id
-        user = User.objects.filter(id=user_id).first()
-        booking = Booking.objects.filter(id=booking_id).first()
-
-        if not user or not booking:
-            context = {'error': "Invalid user or booking."}
-            return render(request, 'carts.html', context)
-
-        existing_cart_item = cart.objects.filter(Q(uid=user) & Q(booking=booking)).first()
-        context = {'bookings': [booking]}
-
-        if existing_cart_item:
-            context['msg'] = "Booking already exists in the cart."
-        else:
-            cart.objects.create(uid=user, booking=booking)
-            context['success'] = "Booking added successfully to the cart!"
-
-        return render(request, 'carts.html', context)
-    else:
-        return render(request, 'login.html', {'error': "You need to log in to add bookings to the cart."})
-
-    
-def viewcart(request):
-    c=cart.objects.filter(uid=request.user.id)
-    s=0
-    for x in c:
-        s=s+x.pid.price*x.qty
-    context={}
-    context['data']=c
-    context['total']=s
-    return render(request,'carts.html',context)
-
-
 def search_products(request):
     query = request.GET.get('q')  # Get the query parameter
     if query:
         # Use the correct field name from your model (e.g., name)
         products = product.objects.filter(name__icontains=query)
+        if not products.exists():  # If no product matched
+            messages.warning(request, "No product found!")
+            return redirect('/index')
     else:
         products = product.objects.none()  # Return an empty queryset if no query
     
@@ -182,23 +132,6 @@ def search_products(request):
     return render(request, 'search_results.html', context)
 
 
-
-
-
-
-
-def fetch_reviews(request):
-    sheet_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvbITPUDwSp_6JyuC3IWjc3Q5UbGdjdZnB5IE9if1foTKoMVI5FXQkKpVkjTPb15uDrDqxMAHK09ag/pub?output=csv"  # Replace with your URL
-
-    try:
-        fetch_and_save_google_form_responses(sheet_url)
-        message = "Data successfully fetched and saved!"
-    except Exception as e:
-        message = f"Error: {str(e)}"
-
-    # Display all reviews from the database
-    reviews = Review.objects.all()
-    return render(request, "reviews/fetch_reviews.html", {"reviews": reviews, "message": message})
 
 def booking_view(request, product_id):
     product = get_object_or_404(product, id=product_id)
@@ -225,7 +158,7 @@ def booking_view(request, product_id):
                 total_price=total_price,
             )
             for passenger in passenger_details:
-                passenger.objects.create(
+                Passenger.objects.create(
                     booking=booking,
                     name=passenger["name"],
                     age=passenger["age"],
@@ -316,6 +249,8 @@ def reset_password(request):
 
 @login_required
 def booking_page(request, product_id):
+    import razorpay
+
     product_obj = get_object_or_404(product, id=product_id)
     if request.method == 'POST':
         # Razorpay integration
@@ -348,6 +283,8 @@ def booking_page(request, product_id):
 
 
 def make_payment(request):
+    import razorpay
+
     if request.method == 'POST':
         # Get customer names as a comma-separated string
         customer_names = request.POST.get('customers')  
@@ -358,7 +295,7 @@ def make_payment(request):
         total_amount = amount_per_customer * customer_count  # Calculate the total amount
 
         # Create Razorpay payment
-        client = razorpay.Client(auth=(settings.PAYMENT_GATEWAY_KEY, settings.PAYMENT_GATEWAY_SECRET))
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         amount_in_paise = int(total_amount * 100)  # Convert amount to paise
         payment = client.order.create({'amount': amount_in_paise, 'currency': 'INR', 'payment_capture': '1'})
 

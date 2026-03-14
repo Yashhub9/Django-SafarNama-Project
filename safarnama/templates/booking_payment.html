@@ -1,108 +1,45 @@
 {% extends "base.html" %}
 
+{% block title %}Safarnama | Payment{% endblock title %}
+
 {% block body %}
-
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Page</title>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-</head>
-<style>
-    /* General Styles */
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f4f7fc;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-h1 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-p {
-    font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 30px;
-}
-
-/* Payment Button Styles */
-#rzp-button1 {
-    background-color: #007bff; /* Blue color */
-    color: white; /* Text color */
-    font-size: 1.2rem; /* Font size */
-    padding: 15px 30px; /* Padding for the button */
-    border: none; /* Remove border */
-    border-radius: 8px; /* Smooth rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    width: 250px; /* Set a fixed width for the button */
-    transition: all 0.3s ease-in-out; /* Smooth hover effect */
-}
-
-#rzp-button1:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2); /* Shadow effect */
-    transform: translateY(-4px); /* Slight lift effect */
-}
-
-#rzp-button1:active {
-    background-color: #0056b3; /* Keep the dark blue on click */
-    transform: translateY(0); /* Reset lift effect */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15); /* Subtle click effect */
-}
-
-/* Responsive Styling */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    #rzp-button1 {
-        width: 200px;
-        font-size: 1.1rem;
-    }
-}
-
-</style>
-<body>
-    <h1>Complete Payment for {{ product.name }} Tour</h1>
-    <p>Amount: ₹{{ booking.total_price }}</p>
-    <button id="rzp-button1">Pay Now</button>
-    <script>
-        var options = {
-            "key": "{{ razorpay_key }}",
-            "amount": "{{ payment.amount }}", 
-            "currency": "{{ payment.currency }}",
-            "name": "{{ product.name }}",
-            "description": "Booking Payment",
-            "order_id": "{{ payment.id }}",
-            "handler": function (response) {
-                alert("Payment Successful!");
-                window.location.href = "/";
-            },
-            "prefill": {
-                "name": "{{ request.user.username }}",
-                "email": "{{ request.user.email }}",
-            }
-        };
-        var rzp1 = new Razorpay(options);
-        document.getElementById('rzp-button1').onclick = function(e) {
-            rzp1.open();
-            e.preventDefault();
-        }
-    </script>
-</body>
-</html>
-
+<section class="payment-section">
+    <div class="container">
+        <div class="payment-card reveal-up text-center">
+            <p class="eyebrow justify-content-center"><i class="fa-solid fa-shield-halved"></i> Secure payment</p>
+            <h1>Complete payment for {{ product.name }}</h1>
+            <p class="mini-note">Review the amount below and continue to Razorpay to finish your booking.</p>
+            <div class="current-price my-4">Rs. {{ booking.total_price }}</div>
+            <button id="rzp-button1" class="btn btn-brand">Pay Now</button>
+        </div>
+    </div>
+</section>
 {% endblock body %}
+
+{% block extra_scripts %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    const options = {
+        key: "{{ razorpay_key }}",
+        amount: "{{ payment.amount }}",
+        currency: "{{ payment.currency }}",
+        name: "{{ product.name }}",
+        description: "Booking Payment",
+        order_id: "{{ payment.id }}",
+        handler: function () {
+            alert("Payment Successful!");
+            window.location.href = "/";
+        },
+        prefill: {
+            name: "{{ request.user.username }}",
+            email: "{{ request.user.email }}",
+        }
+    };
+
+    const razorpayPayment = new Razorpay(options);
+    document.getElementById("rzp-button1").addEventListener("click", function (event) {
+        event.preventDefault();
+        razorpayPayment.open();
+    });
+</script>
+{% endblock extra_scripts %}
