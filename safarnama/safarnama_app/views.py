@@ -253,8 +253,12 @@ def booking_page(request, product_id):
 
     product_obj = get_object_or_404(product, id=product_id)
     if request.method == 'POST':
+        if not settings.RAZORPAY_KEY_ID or not settings.RAZORPAY_KEY_SECRET:
+            messages.error(request, "Payment gateway is not configured yet. Please contact support.")
+            return redirect('booking', product_id=product_id)
+
         # Razorpay integration
-        razorpay_client = razorpay.Client(auth=("rzp_test_xdN7uS1MwW4CAK", "Rx2nr5hml4BdAnOExD5S4JTJ"))
+        razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         total_price = float(request.POST['total_price']) * 100  # Convert to paisa (₹1 = 100 paisa)
         
         payment = razorpay_client.order.create({
