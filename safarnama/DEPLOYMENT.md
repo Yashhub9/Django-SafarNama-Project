@@ -1,132 +1,135 @@
-# Safarnama Deployment
+# Safarnama Deployment On PythonAnywhere
 
-## 1. Local prep
+This project is now configured to auto-load a local `.env` file from the project root, which makes PythonAnywhere deployment much easier.
 
-Create a local `.env` file based on `.env.example` and fill in your real values.
+## 1. Before you upload
 
-Install dependencies:
+Create a `.env` file in the project root based on `.env.example`.
 
-```bash
-pip install -r requirements.txt
+Example:
+
+```env
+DJANGO_SECRET_KEY=replace-this-with-a-strong-secret-key
+DEBUG=False
+ALLOWED_HOSTS=yourusername.pythonanywhere.com,127.0.0.1,localhost
+CSRF_TRUSTED_ORIGINS=https://yourusername.pythonanywhere.com
+TIME_ZONE=Asia/Kolkata
+DB_ENGINE=sqlite
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-gmail-app-password
+EMAIL_USE_TLS=True
+DEFAULT_FROM_EMAIL=your-email@gmail.com
+RAZORPAY_KEY_ID=your-razorpay-key-id
+RAZORPAY_KEY_SECRET=your-razorpay-key-secret
 ```
 
-Run a final local check:
-
-```bash
-python manage.py check
-python manage.py migrate
-python manage.py collectstatic
-```
-
-## 2. PythonAnywhere setup
-
-1. Create a new web app on PythonAnywhere.
-2. Choose `Manual configuration`.
-3. Choose the same Python version you want for the app.
-
-Open a Bash console on PythonAnywhere and run:
-
-```bash
-git clone https://github.com/Yashhub9/Django-SafarNama-Project.git
-cd Django-SafarNama-Project
-python -m venv ~/.virtualenvs/safarnama-venv
-source ~/.virtualenvs/safarnama-venv/bin/activate
-pip install -r requirements.txt
-```
-
-Create a `.env` file in the project root and add your production values.
-
-For a simple first deployment, keep:
+For a simple first deployment on PythonAnywhere, keep:
 
 ```env
 DB_ENGINE=sqlite
 ```
 
-## 3. Web tab configuration
+## 2. Push the latest code
+
+From your local machine:
+
+```bash
+git add safarnama/settings.py .env.example DEPLOYMENT.md requirements.txt .gitignore
+git commit -m "Prepare project for PythonAnywhere deployment"
+git push
+```
+
+## 3. Clone on PythonAnywhere
+
+Open a Bash console on PythonAnywhere and run:
+
+```bash
+git clone https://github.com/Yashhub9/Django-SafarNama-Project.git
+cd Django-SafarNama-Project/safarnama
+python3.10 -m venv ~/.virtualenvs/safarnama-venv
+source ~/.virtualenvs/safarnama-venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+If PythonAnywhere gives you a different Python version, use that version instead.
+
+## 4. Create the `.env` file on PythonAnywhere
+
+Inside `/home/yourusername/Django-SafarNama-Project/safarnama`, create:
+
+```bash
+nano .env
+```
+
+Paste your production values there and save the file.
+
+## 5. Configure the web app
 
 In the PythonAnywhere `Web` tab:
 
-- Source code: `/home/yourusername/Django-SafarNama-Project`
-- Working directory: `/home/yourusername/Django-SafarNama-Project`
+- Source code: `/home/yourusername/Django-SafarNama-Project/safarnama`
+- Working directory: `/home/yourusername/Django-SafarNama-Project/safarnama`
 - Virtualenv: `/home/yourusername/.virtualenvs/safarnama-venv`
 
-Edit the WSGI configuration file so it points to your project:
+## 6. Update the WSGI file
+
+Open the WSGI configuration file from the `Web` tab and replace it with:
 
 ```python
 import os
 import sys
 
-path = "/home/yourusername/Django-SafarNama-Project"
+path = "/home/yourusername/Django-SafarNama-Project/safarnama"
 if path not in sys.path:
     sys.path.insert(0, path)
 
-os.environ["DJANGO_SETTINGS_MODULE"] = "safarnama.settings"
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "safarnama.settings")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 ```
 
-## 4. Static and database
+## 7. Run migrations and collect static
 
-Run these commands in the Bash console:
+Back in the Bash console:
 
 ```bash
-cd ~/Django-SafarNama-Project
+cd ~/Django-SafarNama-Project/safarnama
 source ~/.virtualenvs/safarnama-venv/bin/activate
 python manage.py migrate
 python manage.py collectstatic --noinput
-```
-
-In the `Web` tab, add static mappings:
-
-- URL: `/static/` -> Directory: `/home/yourusername/Django-SafarNama-Project/staticfiles`
-- URL: `/media/` -> Directory: `/home/yourusername/Django-SafarNama-Project/media`
-
-## 5. Final step
-
-Reload the web app from the `Web` tab.
-
-If something fails, check:
-
-- The PythonAnywhere error log
-- The server log
-- That your `.env` file has the correct values
-- That `ALLOWED_HOSTS` contains `yourusername.pythonanywhere.com`
-
-## Render quickstart
-
-This repository's Git root is one level above the Django app, so set your Render service `Root Directory` to:
-
-```text
-safarnama
-```
-
-Create a Render PostgreSQL database, then create a web service from the same repo.
-
-Use these settings:
-
-- Runtime: `Python 3`
-- Root Directory: `safarnama`
-- Build Command: `./build.sh`
-- Start Command: `gunicorn safarnama.wsgi:application`
-
-Set these environment variables in Render:
-
-- `DJANGO_SECRET_KEY`: generate a new secret
-- `DATABASE_URL`: use the Render Postgres internal database URL
-- `DEBUG`: `False`
-- `ALLOWED_HOSTS`: leave blank or set your Render hostname manually if needed
-- `CSRF_TRUSTED_ORIGINS`: `https://your-service-name.onrender.com`
-- `RAZORPAY_KEY_ID`: your Razorpay key
-- `RAZORPAY_KEY_SECRET`: your Razorpay secret
-- `EMAIL_HOST_USER`: your Gmail address
-- `EMAIL_HOST_PASSWORD`: your Gmail app password
-- `DEFAULT_FROM_EMAIL`: your Gmail address
-
-After the first successful deploy, open the Render Shell and run:
-
-```bash
 python manage.py createsuperuser
 ```
 
-Note: static files are handled by WhiteNoise. Media uploads are still stored on the service filesystem, so any new uploads can be lost on redeploy unless you add persistent object storage later.
+## 8. Add static and media mappings
+
+In the PythonAnywhere `Web` tab, add:
+
+- URL: `/static/`
+  Directory: `/home/yourusername/Django-SafarNama-Project/safarnama/staticfiles`
+
+- URL: `/media/`
+  Directory: `/home/yourusername/Django-SafarNama-Project/safarnama/media`
+
+## 9. Reload the app
+
+Click `Reload` in the `Web` tab.
+
+## 10. If something breaks
+
+Check these first:
+
+- Error log in the PythonAnywhere `Web` tab
+- Server log in the PythonAnywhere `Web` tab
+- Your `.env` values
+- `ALLOWED_HOSTS`
+- `CSRF_TRUSTED_ORIGINS`
+
+## Notes
+
+- Static files are served from `staticfiles` after `collectstatic`.
+- Media uploads are stored in the project `media` folder.
+- Since old secrets were already committed earlier, rotate your Gmail app password, Razorpay secret, and Django secret key.
